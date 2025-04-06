@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class IqtestApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(IqtestApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IqtestApplication.class, args);
+    }
 
 }
