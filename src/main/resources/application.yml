@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: iqtest
+
+  mail:
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
