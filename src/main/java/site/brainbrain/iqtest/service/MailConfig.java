@@ -17,12 +17,11 @@ public class MailConfig {
     private static final String MAIL_DEBUG = "mail.smtp.debug";
     private static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 
-    @Value("${spring.mail.username")
+    @Value("${spring.mail.username}")
     private String username;
 
     @Value("${spring.mail.password}")
     private String password;
-
     @Bean
     public JavaMailSender javaMailService() {
         final JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
