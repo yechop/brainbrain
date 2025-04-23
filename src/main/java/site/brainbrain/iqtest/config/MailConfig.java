@@ -1,4 +1,4 @@
-package site.brainbrain.iqtest.service;
+package site.brainbrain.iqtest.config;
 
 import java.util.Properties;
 

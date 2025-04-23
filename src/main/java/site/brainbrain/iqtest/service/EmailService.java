@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import site.brainbrain.iqtest.controller.dto.CreateResultRequest;
+import site.brainbrain.iqtest.exception.MailException;
 
 @RequiredArgsConstructor
 @Service
