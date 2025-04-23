@@ -27,7 +27,7 @@ public class EmailService {
             // Todo: 인증서 및 보고서 첨부
 
             mailSender.send(message);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new MailException("이메일 전송에 실패했습니다.");
         }
     }
