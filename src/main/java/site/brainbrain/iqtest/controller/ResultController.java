@@ -1,8 +1,8 @@
 package site.brainbrain.iqtest.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -22,12 +22,11 @@ public class ResultController {
     private final ScoreService scoreService;
     private final EmailService emailService;
 
-    @PostMapping("/")
-    public void create(@RequestParam CreateResultRequest request) {
+    @PostMapping("/results")
+    public void create(@RequestBody CreateResultRequest request) {
         paymentService.pay(request);
         scoreService.calculate(request);
         certificateService.generate(request);
         emailService.send(request);
     }
-
 }
