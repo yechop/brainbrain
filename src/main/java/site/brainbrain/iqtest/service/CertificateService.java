@@ -34,28 +34,35 @@ import site.brainbrain.iqtest.exception.CertificateException;
 @Service
 public class CertificateService {
 
-    private static final String CERTIFICATE_FILE_NAME = "_certificate.pdf";
     private static final String CERTIFICATE_TEMPLATE_PATH = "templates/certificate.png";
+    private static final String CERTIFICATE_FILE_NAME = "_certificate.pdf";
     private static final String TESTEE_NAME_FONT_PATH = "fonts/exmouth.ttf";
     private static final int TESTEE_NAME_FONT_SIZE = 330;
     private static final String SUB_FONT_PATH = "fonts/gilda.ttf";
     private static final int SUB_FONT_SIZE = 50;
 
-    public Certificate generate(final TesteeRequest testeeRequest, final IQScore iQScore) {
+    private final BufferedImage certificateTemplate;
+
+    public CertificateService() {
         try {
-            //todo 인증서 템플릿 매번 불러오지 않게 캐싱 혹은 상수화
-            final BufferedImage certificateImage = loadCertificateTemplate();
-            final String certificateNumber = UUID.randomUUID().toString().substring(15).replace("-", "");
-            drawOnImage(certificateImage, testeeRequest.name(), iQScore, certificateNumber);
-            final byte[] pdf = toPdf(certificateImage);
-            return new Certificate(pdf, testeeRequest.name() + CERTIFICATE_FILE_NAME, certificateNumber);
+            this.certificateTemplate = ImageIO.read(new ClassPathResource(CERTIFICATE_TEMPLATE_PATH).getInputStream());
         } catch (final IOException e) {
-            throw new CertificateException("인증서 생성 실패");
+            throw new CertificateException("인증서 템플릿을 불러오는데 실패했습니다. " + e.getMessage());
         }
     }
 
-    private static BufferedImage loadCertificateTemplate() throws IOException {
-        return ImageIO.read(new ClassPathResource(CERTIFICATE_TEMPLATE_PATH).getInputStream());
+    public Certificate generate(final TesteeRequest testeeRequest, final IQScore iQScore) {
+        final BufferedImage certificateImage = new BufferedImage(
+                certificateTemplate.getWidth(),
+                certificateTemplate.getHeight(),
+                certificateTemplate.getType()
+        );
+        certificateImage.getGraphics().drawImage(certificateTemplate, 0, 0, null);
+        final String certificateNumber = UUID.randomUUID().toString().substring(15).replace("-", "");
+
+        drawOnImage(certificateImage, testeeRequest.name(), iQScore, certificateNumber);
+        final byte[] pdf = toPdf(certificateImage);
+        return new Certificate(pdf, testeeRequest.name() + CERTIFICATE_FILE_NAME, certificateNumber);
     }
 
     private void drawOnImage(final BufferedImage certificateImage,
@@ -65,8 +72,7 @@ public class CertificateService {
         //todo 리팩토링
         final Graphics2D graphics = certificateImage.createGraphics();
         try {
-            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
             final Font testeeNameFont = loadCustomFont(TESTEE_NAME_FONT_PATH, TESTEE_NAME_FONT_SIZE);
             graphics.setFont(testeeNameFont);
@@ -132,7 +138,7 @@ public class CertificateService {
         }
     }
 
-    private byte[] toPdf(final BufferedImage certificateImage) throws IOException {
+    private byte[] toPdf(final BufferedImage certificateImage) {
         try (final PDDocument pdf = new PDDocument();
              final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
 
@@ -149,6 +155,8 @@ public class CertificateService {
             }
             pdf.save(byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();
+        } catch (final IOException e) {
+            throw new CertificateException("인증서를 pdf로 변환하는데 실패했습니다.");
         }
     }
 }
