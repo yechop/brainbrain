@@ -31,6 +31,9 @@ dependencies {
 	// 이메일 전송
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	//pdf 생성
+	implementation 'org.apache.pdfbox:pdfbox:3.0.4'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
