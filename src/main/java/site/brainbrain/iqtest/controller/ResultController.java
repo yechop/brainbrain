@@ -1,5 +1,6 @@
 package site.brainbrain.iqtest.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.brainbrain.iqtest.controller.dto.CreateResultRequest;
+import site.brainbrain.iqtest.domain.Certificate;
+import site.brainbrain.iqtest.domain.IQScore;
 import site.brainbrain.iqtest.service.CertificateService;
 import site.brainbrain.iqtest.service.EmailService;
 import site.brainbrain.iqtest.service.PaymentService;
@@ -23,10 +26,11 @@ public class ResultController {
     private final EmailService emailService;
 
     @PostMapping("/results")
-    public void create(@RequestBody CreateResultRequest request) {
-        paymentService.pay(request);
-        scoreService.calculate(request);
-        certificateService.generate(request);
-        emailService.send(request);
+    public ResponseEntity<Void> create(@RequestBody final CreateResultRequest request) {
+        paymentService.pay(request.paymentRequest());
+        final IQScore testeeIQScore = scoreService.calculate(request.answerSheet());
+        final Certificate certificate = certificateService.generate(request.testeeRequest(), testeeIQScore);
+        emailService.send(request.testeeRequest(), certificate);
+        return ResponseEntity.ok().build();
     }
 }
