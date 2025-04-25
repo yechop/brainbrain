@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.brainbrain.iqtest.controller.dto.CreateResultRequest;
 import site.brainbrain.iqtest.domain.Certificate;
-import site.brainbrain.iqtest.domain.IQScore;
+import site.brainbrain.iqtest.domain.enums.IQScore;
 import site.brainbrain.iqtest.service.CertificateService;
 import site.brainbrain.iqtest.service.EmailService;
 import site.brainbrain.iqtest.service.PaymentService;
