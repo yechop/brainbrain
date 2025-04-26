@@ -2,6 +2,7 @@ package site.brainbrain.iqtest.infrasturcture.payment;
 
 import java.util.Base64;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -17,10 +18,12 @@ public class TossPaymentsClient {
 
     private static final String TOSS_CONFIRM_PAYMENT_URL = "/v1/payments/confirm";
     private static final String AUTH_HEADER_PREFIX = "Basic ";
-    private static final String TEST_SECRET_KEY = "test_sk_E92LAa5PVbl0mOB69zWZ87YmpXyJ";
     private static final String CREDENTIALS_SEPARATOR = ":";
 
     private final RestClient tossRestClient;
+
+    @Value("${toss.secret-key}")
+    private String testSecretKey;
 
     public PaymentResponse confirmPayment(final PaymentRequest request) {
         try {
@@ -38,7 +41,7 @@ public class TossPaymentsClient {
     }
 
     private String makeBasicAuthHeader() {
-        final String token = TEST_SECRET_KEY + CREDENTIALS_SEPARATOR;
+        final String token = testSecretKey + CREDENTIALS_SEPARATOR;
         return AUTH_HEADER_PREFIX + Base64.getEncoder().encodeToString(token.getBytes());
     }
 }
