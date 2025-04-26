@@ -41,7 +41,7 @@ public class CertificateImageRenderer {
         final FontMetrics fontMetrics = graphics.getFontMetrics();
         final int nameX = imageCenterX - (fontMetrics.stringWidth(testeeName) / 2)
                 + CertificateElementPosition.TESTEE_NAME.getX();
-        final int nameY = imageCenterY - CertificateElementPosition.TESTEE_NAME.getY();
+        final int nameY = imageCenterY + CertificateElementPosition.TESTEE_NAME.getY();
         graphics.drawString(testeeName, nameX, nameY);
 
         final int mainIqX = imageCenterX - (fontMetrics.stringWidth(mainIq) / 2)
