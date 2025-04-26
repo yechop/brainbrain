@@ -32,7 +32,7 @@ public class EmailService {
             helper.setText("첨부된 인증서 및 보고서를 확인해주세요.");
 
             final String fileName = certificate.fileName();
-            final ByteArrayResource pdfResource = PdfConverter.imageToPdfResource(certificate.certificateImage());
+            final ByteArrayResource pdfResource = PdfConverter.convert(certificate.certificateImage());
 
             helper.addAttachment(fileName, pdfResource, MediaType.APPLICATION_PDF_VALUE);
 

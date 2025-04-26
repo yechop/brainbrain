@@ -16,7 +16,7 @@ import site.brainbrain.iqtest.exception.PdfException;
 
 public class PdfConverter {
 
-    public static ByteArrayResource imageToPdfResource(final BufferedImage image) {
+    public static ByteArrayResource convert(final BufferedImage image) {
         try (final PDDocument pdf = new PDDocument();
              final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             final PDRectangle rect = new PDRectangle(
