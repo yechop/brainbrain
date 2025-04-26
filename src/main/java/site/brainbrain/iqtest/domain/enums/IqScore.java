@@ -3,10 +3,10 @@ package site.brainbrain.iqtest.domain.enums;
 import java.util.Arrays;
 
 import lombok.Getter;
-import site.brainbrain.iqtest.exception.IQScoreException;
+import site.brainbrain.iqtest.exception.IqScoreException;
 
 @Getter
-public enum IQScore {
+public enum IqScore {
 
     //todo 아래 쭉 이름짓고 점수 계산해서 넣기
     PERFECT(42, "0.1","172", "148", "145");
@@ -14,28 +14,28 @@ public enum IQScore {
 
     private final int answerCount;
     private final String percentile;
-    private final String iQSd24;
-    private final String iQSd16;
-    private final String iQSd15;
+    private final String iqSd24;
+    private final String iqSd16;
+    private final String iqSd15;
 
-    IQScore(final int answerCount,
+    IqScore(final int answerCount,
             final String percentile,
-            final String iQSd24,
-            final String iQSd16,
-            final String iQSd15) {
+            final String iqSd24,
+            final String iqSd16,
+            final String iqSd15) {
         this.answerCount = answerCount;
         this.percentile = percentile;
-        this.iQSd24 = iQSd24;
-        this.iQSd16 = iQSd16;
-        this.iQSd15 = iQSd15;
+        this.iqSd24 = iqSd24;
+        this.iqSd16 = iqSd16;
+        this.iqSd15 = iqSd15;
     }
 
-    public static IQScore of(final int answerCount) {
+    public static IqScore of(final int answerCount) {
         return Arrays.stream(values())
                 .filter(score -> score.answerCount == answerCount)
                 .findFirst()
                 .orElseThrow(() ->
-                        new IQScoreException("정답 개수와 일치하는 아이큐가 없습니다.")
+                        new IqScoreException("정답 개수와 일치하는 아이큐가 없습니다.")
                 );
     }
 }

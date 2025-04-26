@@ -33,7 +33,7 @@ public class CertificateImageRenderer {
         graphics.setColor(color);
     }
 
-    public void drawTesteeNameAndMainIQ(final String testeeName, final String mainIQ) {
+    public void drawTesteeNameAndMainIq(final String testeeName, final String mainIq) {
         final Rectangle bounds = graphics.getClipBounds();
         final int imageCenterX = bounds.width / 2;
         final int imageCenterY = bounds.height / 2;
@@ -44,10 +44,10 @@ public class CertificateImageRenderer {
         final int nameY = imageCenterY - CertificateElementPosition.TESTEE_NAME.getY();
         graphics.drawString(testeeName, nameX, nameY);
 
-        final int mainIQX = imageCenterX - (fontMetrics.stringWidth(mainIQ) / 2)
+        final int mainIqX = imageCenterX - (fontMetrics.stringWidth(mainIq) / 2)
                 + CertificateElementPosition.MAIN_IQ.getX();
-        final int mainIQY = imageCenterY + CertificateElementPosition.MAIN_IQ.getY();
-        graphics.drawString(mainIQ, mainIQX, mainIQY);
+        final int mainIqY = imageCenterY + CertificateElementPosition.MAIN_IQ.getY();
+        graphics.drawString(mainIq, mainIqX, mainIqY);
     }
 
     public void drawSubContent(final String text, final CertificateElementPosition position) {

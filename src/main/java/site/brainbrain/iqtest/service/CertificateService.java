@@ -15,7 +15,7 @@ import site.brainbrain.iqtest.domain.Certificate;
 import site.brainbrain.iqtest.domain.CertificateImageRenderer;
 import site.brainbrain.iqtest.domain.CertificateTemplate;
 import site.brainbrain.iqtest.domain.enums.CertificateElementPosition;
-import site.brainbrain.iqtest.domain.enums.IQScore;
+import site.brainbrain.iqtest.domain.enums.IqScore;
 import site.brainbrain.iqtest.util.CertificateNumberGenerator;
 import site.brainbrain.iqtest.util.FontLoader;
 
@@ -45,7 +45,7 @@ public class CertificateService {
         this.certificateTemplate = CertificateTemplate.from(templatePath);
     }
 
-    public Certificate generate(final TesteeRequest testeeRequest, final IQScore iQScore) {
+    public Certificate generate(final TesteeRequest testeeRequest, final IqScore iQScore) {
         final BufferedImage certificateImage = certificateTemplate.getCopyImage();
         final String certificateNumber = CertificateNumberGenerator.generate();
         drawOnImage(certificateImage, testeeRequest.name(), iQScore, certificateNumber);
@@ -57,7 +57,7 @@ public class CertificateService {
 
     private void drawOnImage(final BufferedImage certificateImage,
                              final String testeeName,
-                             final IQScore iQScore,
+                             final IqScore iQScore,
                              final String certificateNumber) {
         final CertificateImageRenderer renderer = CertificateImageRenderer.from(certificateImage);
         try {
@@ -70,23 +70,23 @@ public class CertificateService {
     }
 
     private void drawTesteeNameAndMainIQ(final String testeeName,
-                                         final IQScore iQScore,
+                                         final IqScore iQScore,
                                          final CertificateImageRenderer renderer) {
         final Font testeeNameFont = FontLoader.loadCustomFont(testeeNameFontPath, TESTEE_NAME_FONT_SIZE);
         renderer.useFontAndColor(testeeNameFont, Color.decode(TESTEE_NAME_COLOR));
-        renderer.drawTesteeNameAndMainIQ(testeeName, iQScore.getIQSd24());
+        renderer.drawTesteeNameAndMainIq(testeeName, iQScore.getIqSd24());
     }
 
-    private void drawSubContent(final IQScore iQScore, final String certificateNumber,
+    private void drawSubContent(final IqScore iQScore, final String certificateNumber,
                                 final CertificateImageRenderer renderer) {
         final Font subFont = FontLoader.loadCustomFont(subFontPath, SUB_FONT_SIZE);
         renderer.useFontAndColor(subFont, Color.decode(SUB_COLOR));
 
         final String percentile = iQScore.getPercentile() + "%";
         renderer.drawSubContent(percentile, CertificateElementPosition.PERCENTILE);
-        renderer.drawSubContent(iQScore.getIQSd24(), CertificateElementPosition.SD24);
-        renderer.drawSubContent(iQScore.getIQSd16(), CertificateElementPosition.SD16);
-        renderer.drawSubContent(iQScore.getIQSd15(), CertificateElementPosition.SD15);
+        renderer.drawSubContent(iQScore.getIqSd24(), CertificateElementPosition.SD24);
+        renderer.drawSubContent(iQScore.getIqSd16(), CertificateElementPosition.SD16);
+        renderer.drawSubContent(iQScore.getIqSd15(), CertificateElementPosition.SD15);
 
         final String issueDate = LocalDate
                 .now(ZoneId.of(ASIA_SEOUL))

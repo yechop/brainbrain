@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.brainbrain.iqtest.controller.dto.CreateResultRequest;
 import site.brainbrain.iqtest.domain.Certificate;
-import site.brainbrain.iqtest.domain.enums.IQScore;
+import site.brainbrain.iqtest.domain.enums.IqScore;
 import site.brainbrain.iqtest.service.CertificateService;
 import site.brainbrain.iqtest.service.EmailService;
 import site.brainbrain.iqtest.service.PaymentService;
@@ -28,8 +28,8 @@ public class ResultController {
     @PostMapping("/results")
     public ResponseEntity<Void> create(@RequestBody final CreateResultRequest request) {
         paymentService.pay(request.paymentRequest());
-        final IQScore testeeIQScore = scoreService.calculate(request.answerSheet());
-        final Certificate certificate = certificateService.generate(request.testeeRequest(), testeeIQScore);
+        final IqScore testeeIqScore = scoreService.calculate(request.answerSheet());
+        final Certificate certificate = certificateService.generate(request.testeeRequest(), testeeIqScore);
         emailService.send(request.testeeRequest(), certificate);
         return ResponseEntity.ok().build();
     }

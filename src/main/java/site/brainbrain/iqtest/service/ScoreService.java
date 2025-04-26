@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 
-import site.brainbrain.iqtest.domain.enums.IQScore;
+import site.brainbrain.iqtest.domain.enums.IqScore;
 import site.brainbrain.iqtest.domain.enums.Question;
 
 @Service
@@ -17,10 +17,10 @@ public class ScoreService {
                     .map(Question::getAnswer)
                     .toList();
 
-    public IQScore calculate(final String testeeAnswerSheet) {
+    public IqScore calculate(final String testeeAnswerSheet) {
         final int answerCount = (int) IntStream.range(0, ANSWERS.size())
                 .filter(i -> Character.getNumericValue(testeeAnswerSheet.charAt(i)) == ANSWERS.get(i))
                 .count();
-        return IQScore.of(answerCount);
+        return IqScore.of(answerCount);
     }
 }

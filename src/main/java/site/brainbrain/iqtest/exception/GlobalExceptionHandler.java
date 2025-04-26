@@ -18,8 +18,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(errorResponse);
     }
 
-    @ExceptionHandler(IQScoreException.class)
-    public ResponseEntity<ErrorResponse> handleIQScoreException(final IQScoreException e) {
+    @ExceptionHandler(IqScoreException.class)
+    public ResponseEntity<ErrorResponse> handleIQScoreException(final IqScoreException e) {
         log.error(e.getMessage(), e);
         final ErrorResponse errorResponse = new ErrorResponse("정답 개수와 일치하는 아이큐를 찾지 못했습니다.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
