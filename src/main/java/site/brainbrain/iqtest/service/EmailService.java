@@ -6,6 +6,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
+    @Async
     public void send(final TesteeRequest testeeRequest, final Certificate certificate) {
         try {
             final MimeMessage message = mailSender.createMimeMessage();
@@ -35,7 +37,6 @@ public class EmailService {
             helper.addAttachment(fileName, pdfResource, MediaType.APPLICATION_PDF_VALUE);
 
             mailSender.send(message);
-            System.out.println("메일 전송 완료");
         } catch (final Exception e) {
             throw new MailException("메일 전송에 실패했습니다.");
         }
