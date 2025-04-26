@@ -36,7 +36,7 @@ public class TossPaymentsClient {
                     .toEntity(PaymentResponse.class)
                     .getBody();
         } catch (final RestClientException e) {
-            throw new PaymentException("토스 결제 승인 오류가 발생했습니다. " + e.getMessage());
+            throw new PaymentException("토스 결제 승인 오류가 발생했습니다.");
         }
     }
 

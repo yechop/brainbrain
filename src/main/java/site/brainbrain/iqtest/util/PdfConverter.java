@@ -12,9 +12,9 @@ import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.core.io.ByteArrayResource;
 
-import site.brainbrain.iqtest.exception.pdfException;
+import site.brainbrain.iqtest.exception.PdfException;
 
-public class pdfConverter {
+public class PdfConverter {
 
     public static ByteArrayResource imageToPdfResource(final BufferedImage image) {
         try (final PDDocument pdf = new PDDocument();
@@ -33,7 +33,7 @@ public class pdfConverter {
             pdf.save(byteArrayOutputStream);
             return new ByteArrayResource(byteArrayOutputStream.toByteArray());
         } catch (final IOException e) {
-            throw new pdfException("PDF로 변환하는데 실패했습니다.");
+            throw new PdfException("PDF로 변환하는데 실패했습니다.");
         }
     }
 }

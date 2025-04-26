@@ -11,6 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(IqScoreException.class)
+    public ResponseEntity<ErrorResponse> handleIQScoreException(final IqScoreException e) {
+        log.error(e.getMessage(), e);
+        final ErrorResponse errorResponse = new ErrorResponse("정답 개수와 일치하는 아이큐를 찾지 못했습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
     @ExceptionHandler(PaymentException.class)
     public ResponseEntity<ErrorResponse> handlePaymentException(final PaymentException e) {
         log.error(e.getMessage(), e);
@@ -18,11 +25,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(errorResponse);
     }
 
-    @ExceptionHandler(IqScoreException.class)
-    public ResponseEntity<ErrorResponse> handleIQScoreException(final IqScoreException e) {
+    @ExceptionHandler(FontException.class)
+    public ResponseEntity<ErrorResponse> handleFontException(final FontException e) {
         log.error(e.getMessage(), e);
-        final ErrorResponse errorResponse = new ErrorResponse("정답 개수와 일치하는 아이큐를 찾지 못했습니다.");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        final ErrorResponse errorResponse = new ErrorResponse("폰트 로딩에 실패했습니다.");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(PdfException.class)
+    public ResponseEntity<ErrorResponse> handlePdfException(final PdfException e) {
+        log.error(e.getMessage(), e);
+        final ErrorResponse errorResponse = new ErrorResponse("PDF 변환에 실패했습니다.");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
     @ExceptionHandler(CertificateException.class)

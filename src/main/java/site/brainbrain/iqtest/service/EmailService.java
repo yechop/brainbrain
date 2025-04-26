@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import site.brainbrain.iqtest.controller.dto.TesteeRequest;
 import site.brainbrain.iqtest.domain.Certificate;
 import site.brainbrain.iqtest.exception.MailException;
-import site.brainbrain.iqtest.util.pdfConverter;
+import site.brainbrain.iqtest.util.PdfConverter;
 
 @RequiredArgsConstructor
 @Service
@@ -30,7 +30,7 @@ public class EmailService {
             helper.setText("첨부된 인증서 및 보고서를 확인해주세요.");
 
             final String fileName = certificate.fileName();
-            final ByteArrayResource pdfResource = pdfConverter.imageToPdfResource(certificate.certificateImage());
+            final ByteArrayResource pdfResource = PdfConverter.imageToPdfResource(certificate.certificateImage());
 
             helper.addAttachment(fileName, pdfResource, MediaType.APPLICATION_PDF_VALUE);
 

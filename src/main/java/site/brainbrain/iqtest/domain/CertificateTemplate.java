@@ -22,7 +22,7 @@ public class CertificateTemplate {
         try (final InputStream inputStream = new ClassPathResource(templatePath).getInputStream()) {
             return new CertificateTemplate(ImageIO.read(inputStream));
         } catch (final IOException e) {
-            throw new CertificateException("인증서 템플릿을 불러오는데 실패했습니다. " + e.getMessage());
+            throw new CertificateException("인증서 템플릿을 불러오는데 실패했습니다.");
         }
     }
 
