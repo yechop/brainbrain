@@ -1,4 +1,6 @@
 package site.brainbrain.iqtest.domain;
 
-public record Certificate(byte[] pdfBytes, String fileName, String certificateNumber) {
+import java.awt.image.BufferedImage;
+
+public record Certificate(BufferedImage certificateImage, String fileName, String certificateNumber) {
 }
