@@ -22,7 +22,7 @@ jobs:
         run: ./gradlew clean bootJar --no-daemon
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: iqtest-jar
           path: build/libs/*.jar
