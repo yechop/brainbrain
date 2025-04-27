@@ -14,6 +14,7 @@ import site.brainbrain.iqtest.controller.dto.TesteeRequest;
 import site.brainbrain.iqtest.domain.Certificate;
 import site.brainbrain.iqtest.domain.CertificateImageRenderer;
 import site.brainbrain.iqtest.domain.CertificateTemplate;
+import site.brainbrain.iqtest.domain.ClasspathImageLoader;
 import site.brainbrain.iqtest.domain.enums.CertificateElementPosition;
 import site.brainbrain.iqtest.domain.enums.IqScore;
 import site.brainbrain.iqtest.util.CertificateNumberGenerator;
@@ -40,9 +41,10 @@ public class CertificateService {
 
     public CertificateService(
             @Value("${certificate.template}")
-            final String templatePath
+            final String certificateTemplatePath,
+            final ClasspathImageLoader classpathImageLoader
     ) {
-        this.certificateTemplate = CertificateTemplate.from(templatePath);
+        this.certificateTemplate = CertificateTemplate.of(classpathImageLoader, certificateTemplatePath);
     }
 
     public Certificate generate(final TesteeRequest testeeRequest, final IqScore iQScore) {

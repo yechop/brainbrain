@@ -6,8 +6,6 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.core.io.ClassPathResource;
-
 import site.brainbrain.iqtest.exception.CertificateException;
 
 public class CertificateTemplate {
@@ -18,8 +16,8 @@ public class CertificateTemplate {
         this.certificateTemplate = certificateTemplate;
     }
 
-    public static CertificateTemplate from(final String templatePath) {
-        try (final InputStream inputStream = new ClassPathResource(templatePath).getInputStream()) {
+    public static CertificateTemplate of(final ImageLoader loader, final String certificateTemplatePath) {
+        try (final InputStream inputStream = loader.load(certificateTemplatePath)) {
             return new CertificateTemplate(ImageIO.read(inputStream));
         } catch (final IOException e) {
             throw new CertificateException("인증서 템플릿을 불러오는데 실패했습니다.");
