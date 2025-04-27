@@ -18,6 +18,9 @@ jobs:
           distribution: temurin
           java-version: '23'
 
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+
       - name: Build with Gradle
         run: ./gradlew clean bootJar --no-daemon
 
