@@ -11,8 +11,8 @@ import site.brainbrain.iqtest.exception.FontException;
 
 public class FontLoader {
 
-    public static Font loadCustomFont(final String fontName, final int fontSize) {
-        try (final InputStream inputStream = new ClassPathResource(fontName).getInputStream()) {
+    public static Font loadCustomFont(final String fontPath, final int fontSize) {
+        try (final InputStream inputStream = new ClassPathResource(fontPath).getInputStream()) {
             final Font customFont = Font.createFont(java.awt.Font.TRUETYPE_FONT, inputStream);
             return customFont.deriveFont(Font.PLAIN, fontSize);
         } catch (final FontFormatException | IOException e) {
