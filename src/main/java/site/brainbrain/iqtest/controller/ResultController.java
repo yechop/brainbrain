@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.brainbrain.iqtest.controller.dto.CreateResultRequest;
 import site.brainbrain.iqtest.domain.Certificate;
 import site.brainbrain.iqtest.domain.enums.IqScore;
@@ -15,6 +16,7 @@ import site.brainbrain.iqtest.service.EmailService;
 import site.brainbrain.iqtest.service.PaymentService;
 import site.brainbrain.iqtest.service.ScoreService;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
@@ -31,6 +33,12 @@ public class ResultController {
         final IqScore testeeIqScore = scoreService.calculate(request.answerSheet());
         final Certificate certificate = certificateService.generate(request.testeeRequest(), testeeIqScore);
         emailService.send(request.testeeRequest(), certificate);
+
+        //임시 로그
+        log.info("이메일 : " + request.testeeRequest().email()
+                + "\n이름 : " + request.testeeRequest().name()
+                + " 답지 : " + request.answerSheet());
+
         return ResponseEntity.ok().build();
     }
 }
