@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>IQ 테스트 결제 & 결과 전송</title>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <style>
+        #payBtn {
+            padding: 1rem 2rem;
+            font-size: 1.25rem;
+            background-color: #3E5BFF;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        #payBtn:hover {
+            background-color: #0026FF;
+        }
+    </style>
+</head>
+<body>
+<h1>BrainBrain 테스트 페이지</h1>
+<form id="iqForm">
+    <fieldset>
+        <legend>수험자 정보</legend>
+        이름: (현재 영어 이름만 지원) <input type="text" id="name" value="Lee Ye Chan"><br>
+        인증서 수령 이메일: <input type="email" id="email" value="channetattoo@gmail.com"><br>
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>답안지 제출  /  42개 모두 맞거나 모두 틀리는 0개 경우만 제공하고 있습니다.<br>
+            정답 : 111112222233333444445555566666777778888888<br>
+        </legend>
+        <textarea id="answerSheet" rows="2" cols="42">111112222233333444445555566666777778888888</textarea>
+    </fieldset>
+    <br>
+    <button type="button" id="payBtn">
+        결제하기<br>
+        (테스트 키 사용으로 실제 결제되지 않습니다.)
+    </button>
+</form>
+
+<pre id="status" style="background:#f0f0f0;padding:10px;"></pre>
+
+<script>
+    const clientKey = "test_ck_BX7zk2yd8yOaQ6n6GPPvVx9POLqK";
+    const tossPayments = TossPayments(clientKey);
+    const payment = tossPayments.payment({ customerKey: TossPayments.ANONYMOUS });
+
+    document.getElementById("payBtn").addEventListener("click", async () => {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const answerSheet = document.getElementById("answerSheet").value.trim();
+
+        if (!name || !email || answerSheet.length !== 42) {
+            alert("이름·이메일을 입력하고, 답안지는 정확히 42문자로 입력해주세요.");
+            return;
+        }
+
+        try {
+            const res = await payment.requestPayment({
+                method: "CARD",
+                amount: { currency: "KRW", value: 5000 },
+                orderId: "iqtest-" + Date.now(),
+                orderName: "BrainBrain IQ Test"
+            });
+
+            console.log("Toss 응답:", res);
+
+            const payload = {
+                testeeRequest: {
+                    email: email,
+                    name: name,
+                    age: 30,
+                    gender: "M",
+                    country: "KR",
+                    paymentOption: "CARD"
+                },
+                answerSheet: answerSheet,
+                paymentRequest: {
+                    orderId: res.orderId,
+                    amount: res.amount.value,
+                    paymentKey: res.paymentKey
+                }
+            };
+
+            const apiRes = await fetch("/results", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (apiRes.ok) {
+                //Todo 리다이렉트
+                document.getElementById("status").textContent =
+                    `결제 및 결과 전송 성공\n\nRequest Payload:\n` +
+                    JSON.stringify(payload, null, 2);
+            } else {
+                const text = await apiRes.text();
+                document.getElementById("status").textContent =
+                    `서버 오류 ${apiRes.status}\n\n${text}`;
+            }
+
+        } catch (err) {
+            console.error(err);
+            document.getElementById("status").textContent =
+                "결제 또는 전송 중 오류가 발생했습니다.\n" + err;
+        }
+    });
+</script>
+</body>
+</html>

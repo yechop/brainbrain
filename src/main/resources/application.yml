@@ -1,7 +1,12 @@
 spring:
-  application:
-    name: iqtest
-
   mail:
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
+
+toss:
+  secret-key: ${TOSS_SECRET_KEY}
+
+certificate:
+  template: templates/certificate.png
+  exmouth: fonts/exmouth.ttf
+  gilda: fonts/gilda.ttf
