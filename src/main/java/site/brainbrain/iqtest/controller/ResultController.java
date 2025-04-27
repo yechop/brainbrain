@@ -1,6 +1,6 @@
 package site.brainbrain.iqtest.controller;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -42,7 +42,8 @@ public class ResultController {
         log.info("\n이메일 : " + request.testeeRequest().email()
                 + "\n이름 : " + request.testeeRequest().name()
                 + "\n답지 : " + request.answerSheet()
-                + "\n날짜 + " + LocalDate.now(ZoneId.of("Asia/Seoul"))
+                + "\n날짜 + " + LocalDateTime
+                .now(ZoneId.of("Asia/Seoul"))
                 .format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분"))
                 + "\n");
         return ResponseEntity.ok().build();
