@@ -8,9 +8,10 @@ import site.brainbrain.iqtest.exception.IqScoreException;
 @Getter
 public enum IqScore {
 
-    //todo 아래 쭉 이름짓고 점수 계산해서 넣기
-    PERFECT(42, "0.1","172", "148", "145");
-//    P1(41, ),...
+    PERFECT(42, "0.1","172", "148", "145"),
+    //중간 점수 생략
+    ZERO(0, "100", "0", "0", "0")
+    ;
 
     private final int answerCount;
     private final String percentile;
@@ -34,8 +35,6 @@ public enum IqScore {
         return Arrays.stream(values())
                 .filter(score -> score.answerCount == answerCount)
                 .findFirst()
-                .orElseThrow(() ->
-                        new IqScoreException("정답 개수와 일치하는 아이큐가 없습니다.")
-                );
+                .orElseThrow(() -> new IqScoreException("정답 개수와 일치하는 아이큐가 없습니다."));
     }
 }
